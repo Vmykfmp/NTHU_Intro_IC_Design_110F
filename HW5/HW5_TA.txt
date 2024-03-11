@@ -1,0 +1,29 @@
+1. 請參考 Chapter 7 p.37: Differential Amplifier – Latch Type (B)
+想想看要這個sense amplifier怎麼運作，接著畫好 schematic，說說看你的想法。
+
+2. 如果想要更短的 sensing time和更小的 power，可以調整每顆MOS的大小，
+給夠大的電壓差先跑 pre-simulation，觀察每顆MOS的影響。
+(請用.meas量，以利後面操作，
+Sensing time from EN=0.5* to SON=0.5*VDD.
+Average power for one EN cycle (2ns) (precharge + sensing).)
+
+3. 接著跑 Monte Carlo，設定和觀念請參考 Hspice_Tutorial.pdf，
+手動慢慢下修電壓差 (或是你有別的方法)
+找到能夠滿足 99.9% yield 的最小電壓差即為 Vin_offset，
+老師說五個corner都要找，記得討論結果。
+
+***********************怎麼看sensing fail? *****************************
+加入下列，從csv裡查看(excel)
+.option measfile=1		$ all result in single file
+.option measform=3	$ .meas output in CSV format
+請使用上述 .meas 的sensing time結果判斷或是另外寫.meas 方便查看
+*************************************************************************
+
+4. 畫layout 完成 DRC, LVS, PEX。
+
+5.完成 post-simulation with M.C. 的(a)condition
+接著 input 對調 (b)condition (除了input，sensing time的.meas要記得改喔)，
+討論一下結果。
+照著 Submission 規定製作繳交報告。
+
+6. 雲端填 rank，填入 Vin_offset 比較大的那個和對應的 sensing time, power。

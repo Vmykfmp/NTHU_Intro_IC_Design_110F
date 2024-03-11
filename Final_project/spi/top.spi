@@ -1,0 +1,638 @@
+************************************************************************
+* auCdl Netlist:
+* 
+* Library Name:  Fin
+* Top Cell Name: top
+* View Name:     schematic
+* Netlisted on:  Dec 15 17:34:35 2021
+************************************************************************
+
+*.nBIPOLAR
+*.RESI = 2000
+*.RESVAL
+*.CAPVAL
+*.DIOPERI
+*.DIOAREA
+*.EQUATION
+*.SCALE METER
+*.MEGA
+
+.SUBCKT top VDD VSS A<0> A<1> A<2> A<3> A<4> A<5> A<6> A<7> A<8> Dout<0> Dout<1> VREF CLK 
+
+*.SUBCKT top VDD VSS Dout<0> Dout<1> VREF CLK
+
+*ROM16x64
+XROM BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> 
++ BL<10> BL<11> BL<12> BL<13> BL<14> BL<15> VSS WL<0> WL<1> WL<2> WL<3> WL<4> 
++ WL<5> WL<6> WL<7> WL<8> WL<9> WL<10> WL<11> WL<12> WL<13> WL<14> WL<15> 
++ WL<16> WL<17> WL<18> WL<19> WL<20> WL<21> WL<22> WL<23> WL<24> WL<25> WL<26> 
++ WL<27> WL<28> WL<29> WL<30> WL<31> WL<32> WL<33> WL<34> WL<35> WL<36> WL<37> 
++ WL<38> WL<39> WL<40> WL<41> WL<42> WL<43> WL<44> WL<45> WL<46> WL<47> WL<48> 
++ WL<49> WL<50> WL<51> WL<52> WL<53> WL<54> WL<55> WL<56> WL<57> WL<58> WL<59> 
++ WL<60> WL<61> WL<62> WL<63> / ROM16x64
+
+*XDecoder
+XXDec WL_EN VDD VSS X_sel_FF<0> X_sel_FF<1> X_sel_FF<2> X_sel_FF<3> X_sel_FF<4> 
++ X_sel_FF<5> WL<0> WL<1> WL<2> WL<3> WL<4> 
++ WL<5> WL<6> WL<7> WL<8> WL<9> WL<10> WL<11> WL<12> WL<13> WL<14> WL<15> 
++ WL<16> WL<17> WL<18> WL<19> WL<20> WL<21> WL<22> WL<23> WL<24> WL<25> WL<26> 
++ WL<27> WL<28> WL<29> WL<30> WL<31> WL<32> WL<33> WL<34> WL<35> WL<36> WL<37> 
++ WL<38> WL<39> WL<40> WL<41> WL<42> WL<43> WL<44> WL<45> WL<46> WL<47> WL<48> 
++ WL<49> WL<50> WL<51> WL<52> WL<53> WL<54> WL<55> WL<56> WL<57> WL<58> WL<59> 
++ WL<60> WL<61> WL<62> WL<63> / D664
+
+*YDecoder
+XYDec VDD VDD VSS Y_sel_FF<0> Y_sel_FF<1> Y_sel_FF<2>
++ Y_sel<0> Y_sel<1> Y_sel<2> Y_sel<3> Y_sel<4> Y_sel<5> Y_sel<6> Y_sel<7> / D38
+
+*Precharge
+Xprech BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> 
++ BL<10> BL<11> BL<12> BL<13> BL<14> BL<15> CLK VDD / prech
+
+*mux8to1
+XMUX BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> 
++ BL<10> BL<11> BL<12> BL<13> BL<14> BL<15> Y_sel<0> Y_sel<1> 
++ Y_sel<2> Y_sel<3> Y_sel<4> Y_sel<5> Y_sel<6> Y_sel<7> DL<0> DL<1> 
++ VDD VSS / mux8to1
+
+*Sensing Amplifier
+XSA DL<0> DL<1> Dout_SA<0> Dout_SA<1> SAEN VREF o0 o1 vdd vss / SA
+
+*DFFs & Timing Control
+XDFF_Timing_control A<0> A<1> A<2> A<3> A<4> A<5> A<6> A<7> A<8> CLK SAEN VDD VSS WL_EN 
++ X_sel_FF<0> X_sel_FF<1> X_sel_FF<2> X_sel_FF<3> X_sel_FF<4> X_sel_FF<5> Y_sel_FF<0> Y_sel_FF<1> Y_sel_FF<2>
++ notused0 notused1 notused2 notused3 notused4 notused5 notused6 notused7 notused8 / DFF_tctl 
+
+*XDFF_tctl CLK SAEN VDD VSS WL_EN / DFF_tctl
+
+*SR_Latch
+XSRL SAEN Dout<0> Dout<1> Dout_SA<0> Dout_SA<1> QB<0> QB<1> VDD VSS / SRLx2
+
+.ENDS
+
+*
+*
+*
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NAND4
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NAND4 A B C EN VDD VSS out
+*.PININFO A:I B:I C:I EN:I out:O VDD:B VSS:B
+MM7 out EN VDD VDD p_18 W=0.5u L=180.00n m=1
+MM6 out A VDD VDD p_18 W=0.5u L=180.00n m=1
+MM5 out B VDD VDD p_18 W=0.5u L=180.00n m=1
+MM4 out C VDD VDD p_18 W=0.5u L=180.00n m=1
+MM3 net24 EN VSS VSS n_18 W=500.0n L=180.00n m=1
+MM2 net28 C net24 VSS n_18 W=500.0n L=180.00n m=1
+MM1 net32 B net28 VSS n_18 W=500.0n L=180.00n m=1
+MM0 out A net32 VSS n_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    inv
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inv VDD VSS Vin Vout
+*.PININFO Vin:I Vout:O VDD:B VSS:B
+MP Vout Vin VDD VDD p_18 W=0.5u L=180.00n m=1
+MN Vout Vin VSS VSS n_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    D38
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT D38 EN VDD VSS in0 in1 in2 out0 out1 out2 out3 out4 out5 out6 out7
+*.PININFO EN:I in0:I in1:I in2:I out0:O out1:O out2:O out3:O out4:O out5:O 
+*.PININFO out6:O out7:O VDD:B VSS:B
+XI27 net22 net18 net14 EN VDD VSS out0 / NAND4
+XI24 in0 in1 net14 EN VDD VSS out3 / NAND4
+XI23 net22 net18 in2 EN VDD VSS out4 / NAND4
+XI21 net22 in1 in2 EN VDD VSS out6 / NAND4
+XI22 in0 net18 in2 EN VDD VSS out5 / NAND4
+XI25 net22 in1 net14 EN VDD VSS out2 / NAND4
+XI26 in0 net18 net14 EN VDD VSS out1 / NAND4
+XI20 in0 in1 in2 EN VDD VSS out7 / NAND4
+XI19 VDD VSS in2 net14 / inv
+XI18 VDD VSS in1 net18 / inv
+XI17 VDD VSS in0 net22 / inv
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NOR2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NOR2 A B VDD VSS Vout
+*.PININFO A:I B:I Vout:O VDD:B VSS:B
+MM3 net13 A VDD VDD p_18 W=0.5u L=180.00n m=1
+MM2 Vout B net13 VDD p_18 W=0.5u L=180.00n m=1
+MM1 Vout B VSS VSS n_18 W=0.5u L=180.00n m=1
+MM0 Vout A VSS VSS n_18 W=0.5u L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NOR2x8
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NOR2x8 EN VDD VSS in0 in1 in2 in3 in4 in5 in6 in7 out0 out1 out2 out3 
++ out4 out5 out6 out7
+*.PININFO EN:I in0:I in1:I in2:I in3:I in4:I in5:I in6:I in7:I out0:O out1:O 
+*.PININFO out2:O out3:O out4:O out5:O out6:O out7:O VDD:B VSS:B
+XI4 EN in4 VDD VSS out4 / NOR2
+XI5 EN in5 VDD VSS out5 / NOR2
+XI6 EN in6 VDD VSS out6 / NOR2
+XI7 EN in7 VDD VSS out7 / NOR2
+XI3 EN in3 VDD VSS out3 / NOR2
+XI2 EN in2 VDD VSS out2 / NOR2
+XI1 EN in1 VDD VSS out1 / NOR2
+XI0 EN in0 VDD VSS out0 / NOR2
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    D664
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT D664 EN VDD VSS in0 in1 in2 in3 in4 in5 out0 out1 out2 out3 out4 
++ out5 out6 out7 out8 out9 out10 out11 out12 out13 out14 out15 out16 out17 
++ out18 out19 out20 out21 out22 out23 out24 out25 out26 out27 out28 out29 
++ out30 out31 out32 out33 out34 out35 out36 out37 out38 out39 out40 out41 
++ out42 out43 out44 out45 out46 out47 out48 out49 out50 out51 out52 out53 
++ out54 out55 out56 out57 out58 out59 out60 out61 out62 out63
+*.PININFO EN:I in0:I in1:I in2:I in3:I in4:I in5:I out0:O out1:O out2:O out3:O 
+*.PININFO out4:O out5:O out6:O out7:O out8:O out9:O out10:O out11:O out12:O 
+*.PININFO out13:O out14:O out15:O out16:O out17:O out18:O out19:O out20:O 
+*.PININFO out21:O out22:O out23:O out24:O out25:O out26:O out27:O out28:O 
+*.PININFO out29:O out30:O out31:O out32:O out33:O out34:O out35:O out36:O 
+*.PININFO out37:O out38:O out39:O out40:O out41:O out42:O out43:O out44:O 
+*.PININFO out45:O out46:O out47:O out48:O out49:O out50:O out51:O out52:O 
+*.PININFO out53:O out54:O out55:O out56:O out57:O out58:O out59:O out60:O 
+*.PININFO out61:O out62:O out63:O VDD:B VSS:B
+XI40 EN VDD VSS in0 in1 in2 net0144 net0143 net0142 net0141 net0140 net0139 
++ net0138 net0137 / D38
+XI39 EN VDD VSS in3 in4 in5 net0130 net192 net0220 net190 net0122 net188 
++ net187 net0123 / D38
+XI32 net190 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out24 out25 out26 out27 out28 out29 out30 out31 / NOR2x8
+XI33 net0122 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out32 out33 out34 out35 out36 out37 out38 out39 / NOR2x8
+XI34 net188 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out40 out41 out42 out43 out44 out45 out46 out47 / NOR2x8
+XI35 net187 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out48 out49 out50 out51 out52 out53 out54 out55 / NOR2x8
+XI36 net0123 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out56 out57 out58 out59 out60 out61 out62 out63 / NOR2x8
+XI31 net0220 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out16 out17 out18 out19 out20 out21 out22 out23 / NOR2x8
+XI30 net192 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out8 out9 out10 out11 out12 out13 out14 out15 / NOR2x8
+XI27 net0130 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out0 out1 out2 out3 out4 out5 out6 out7 / NOR2x8
+.ENDS
+
+************************************************************************
+* Library Name: Fin
+* Cell Name:    ROM8x2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT ROM8x2 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 VSS WL0 WL1
+*.PININFO BL0:B BL1:B BL2:B BL3:B BL4:B BL5:B BL6:B BL7:B VSS:B WL0:B WL1:B
+MM15 net83 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM14 BL6 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM13 net91 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM12 BL4 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM11 net99 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM10 BL2 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM9 net107 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM8 BL0 WL1 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM7 BL7 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM6 net119 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM5 BL5 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM4 net127 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM3 BL3 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM2 net135 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM1 BL1 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+MM0 net143 WL0 VSS VSS n_18 W=470.00n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: Fin
+* Cell Name:    ROM16x8
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT ROM16x8 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 BL8 BL9 BL10 BL11 BL12 BL13 
++ BL14 BL15 VSS WL0 WL1 WL2 WL3 WL4 WL5 WL6 WL7
+*.PININFO BL0:B BL1:B BL2:B BL3:B BL4:B BL5:B BL6:B BL7:B BL8:B BL9:B BL10:B 
+*.PININFO BL11:B BL12:B BL13:B BL14:B BL15:B VSS:B WL0:B WL1:B WL2:B WL3:B 
+*.PININFO WL4:B WL5:B WL6:B WL7:B
+XI7 BL8 BL9 BL10 BL11 BL12 BL13 BL14 BL15 VSS WL6 WL7 / ROM8x2
+XI6 BL8 BL9 BL10 BL11 BL12 BL13 BL14 BL15 VSS WL4 WL5 / ROM8x2
+XI5 BL8 BL9 BL10 BL11 BL12 BL13 BL14 BL15 VSS WL2 WL3 / ROM8x2
+XI4 BL8 BL9 BL10 BL11 BL12 BL13 BL14 BL15 VSS WL0 WL1 / ROM8x2
+XI3 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 VSS WL6 WL7 / ROM8x2
+XI2 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 VSS WL4 WL5 / ROM8x2
+XI1 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 VSS WL2 WL3 / ROM8x2
+XI0 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 VSS WL0 WL1 / ROM8x2
+.ENDS
+
+************************************************************************
+* Library Name: Fin
+* Cell Name:    ROM16x64
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT ROM16x64 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> 
++ BL<10> BL<11> BL<12> BL<13> BL<14> BL<15> VSS WL<0> WL<1> WL<2> WL<3> WL<4> 
++ WL<5> WL<6> WL<7> WL<8> WL<9> WL<10> WL<11> WL<12> WL<13> WL<14> WL<15> 
++ WL<16> WL<17> WL<18> WL<19> WL<20> WL<21> WL<22> WL<23> WL<24> WL<25> WL<26> 
++ WL<27> WL<28> WL<29> WL<30> WL<31> WL<32> WL<33> WL<34> WL<35> WL<36> WL<37> 
++ WL<38> WL<39> WL<40> WL<41> WL<42> WL<43> WL<44> WL<45> WL<46> WL<47> WL<48> 
++ WL<49> WL<50> WL<51> WL<52> WL<53> WL<54> WL<55> WL<56> WL<57> WL<58> WL<59> 
++ WL<60> WL<61> WL<62> WL<63>
+*.PININFO WL<0>:I WL<1>:I WL<2>:I WL<3>:I WL<4>:I WL<5>:I WL<6>:I WL<7>:I 
+*.PININFO WL<8>:I WL<9>:I WL<10>:I WL<11>:I WL<12>:I WL<13>:I WL<14>:I 
+*.PININFO WL<15>:I WL<16>:I WL<17>:I WL<18>:I WL<19>:I WL<20>:I WL<21>:I 
+*.PININFO WL<22>:I WL<23>:I WL<24>:I WL<25>:I WL<26>:I WL<27>:I WL<28>:I 
+*.PININFO WL<29>:I WL<30>:I WL<31>:I WL<32>:I WL<33>:I WL<34>:I WL<35>:I 
+*.PININFO WL<36>:I WL<37>:I WL<38>:I WL<39>:I WL<40>:I WL<41>:I WL<42>:I 
+*.PININFO WL<43>:I WL<44>:I WL<45>:I WL<46>:I WL<47>:I WL<48>:I WL<49>:I 
+*.PININFO WL<50>:I WL<51>:I WL<52>:I WL<53>:I WL<54>:I WL<55>:I WL<56>:I 
+*.PININFO WL<57>:I WL<58>:I WL<59>:I WL<60>:I WL<61>:I WL<62>:I WL<63>:I 
+*.PININFO BL<0>:O BL<1>:O BL<2>:O BL<3>:O BL<4>:O BL<5>:O BL<6>:O BL<7>:O 
+*.PININFO BL<8>:O BL<9>:O BL<10>:O BL<11>:O BL<12>:O BL<13>:O BL<14>:O 
+*.PININFO BL<15>:O VSS:B
+XI7 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<56> WL<57> WL<58> WL<59> WL<60> WL<61> 
++ WL<62> WL<63> / ROM16x8
+XI6 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<48> WL<49> WL<50> WL<51> WL<52> WL<53> 
++ WL<54> WL<55> / ROM16x8
+XI5 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<40> WL<41> WL<42> WL<43> WL<44> WL<45> 
++ WL<46> WL<47> / ROM16x8
+XI4 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<32> WL<33> WL<34> WL<35> WL<36> WL<37> 
++ WL<38> WL<39> / ROM16x8
+XI3 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<24> WL<25> WL<26> WL<27> WL<28> WL<29> 
++ WL<30> WL<31> / ROM16x8
+XI2 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<16> WL<17> WL<18> WL<19> WL<20> WL<21> 
++ WL<22> WL<23> / ROM16x8
+XI1 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<8> WL<9> WL<10> WL<11> WL<12> WL<13> 
++ WL<14> WL<15> / ROM16x8
+XI0 BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> BL<10> BL<11> 
++ BL<12> BL<13> BL<14> BL<15> VSS WL<0> WL<1> WL<2> WL<3> WL<4> WL<5> WL<6> 
++ WL<7> / ROM16x8
+.ENDS
+
+************************************************************************
+* Library Name: Fin
+* Cell Name:    prech
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT prech BL<0> BL<1> BL<2> BL<3> BL<4> BL<5> BL<6> BL<7> BL<8> BL<9> 
++ BL<10> BL<11> BL<12> BL<13> BL<14> BL<15> Pre_b VDD
+*.PININFO Pre_b:I BL<0>:B BL<1>:B BL<2>:B BL<3>:B BL<4>:B BL<5>:B BL<6>:B 
+*.PININFO BL<7>:B BL<8>:B BL<9>:B BL<10>:B BL<11>:B BL<12>:B BL<13>:B BL<14>:B 
+*.PININFO BL<15>:B VDD:B
+MM15 BL<15> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM14 BL<14> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM13 BL<13> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM12 BL<12> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM11 BL<11> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM10 BL<10> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM9 BL<9> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM8 BL<8> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM7 BL<7> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM6 BL<6> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM5 BL<5> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM4 BL<4> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM3 BL<3> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM2 BL<2> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM1 BL<1> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+MM0 BL<0> Pre_b VDD VDD p_18 W=470.00n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi
+* Cell Name:    SA
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT SA DL0 DL1 DOUT0 DOUT1 SAEN VREF o0 o1 vdd vss
+*.PININFO DL0:I DL1:I SAEN:I VREF:I DOUT0:O DOUT1:O o0:O o1:O vdd:B vss:B
+MM11 o0 DOUT0 net060 vss N_18 W=500.0n L=180.00n m=1
+MM16 net087 VREF net0108 vss N_18 W=500.0n L=180.00n m=1
+MM15 net060 DL0 net0108 vss N_18 W=500.0n L=180.00n m=1
+MM9 net012 SAEN vss vss N_18 W=470.0n L=180.00n m=1
+MM6 net016 VREF net012 vss N_18 W=500.0n L=180.00n m=1
+MM5 net09 DL1 net012 vss N_18 W=500.0n L=180.00n m=1
+MM3 DOUT1 o1 net016 vss N_18 W=500.0n L=180.00n m=1
+MM1 o1 DOUT1 net09 vss N_18 W=500.0n L=180.00n m=1
+MM13 DOUT0 o0 net087 vss N_18 W=500.0n L=180.00n m=1
+MM19 net0108 SAEN vss vss N_18 W=470.0n L=180.00n m=1
+MM18 DOUT0 SAEN vdd vdd P_18 W=470.0n L=180.00n m=1
+MM14 DOUT0 o0 vdd vdd P_18 W=470.0n L=180.00n m=1
+MM12 o0 DOUT0 vdd vdd P_18 W=470.0n L=180.00n m=1
+MM17 o0 SAEN vdd vdd P_18 W=470.0n L=180.00n m=1
+MM8 DOUT1 SAEN vdd vdd P_18 W=470.0n L=180.00n m=1
+MM4 DOUT1 o1 vdd vdd P_18 W=470.0n L=180.00n m=1
+MM2 o1 DOUT1 vdd vdd P_18 W=470.0n L=180.00n m=1
+MM7 o1 SAEN vdd vdd P_18 W=470.0n L=180.00n m=1
+.ENDS
+
+
+************************************************************************
+* Library Name: vlsi
+* Cell Name:    inverter
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inverter out vdd vin vss
+*.PININFO vin:I out:B vdd:B vss:B
+MM1 out vin vss vss N_18 W=500.0n L=180.00n m=1
+MM0 out vin vdd vdd P_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi
+* Cell Name:    cell
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT cell BL Ysel Yselb o vdd vss
+*.PININFO BL:I Ysel:I Yselb:I o:B vdd:B vss:B
+MM1 o Yselb BL vdd P_18 W=500.0n L=180.00n m=1
+MM0 BL Ysel o vss N_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi
+* Cell Name:    mux8to1
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT mux8to1 BL0 BL1 BL2 BL3 BL4 BL5 BL6 BL7 BL8 BL9 BL10 BL11 BL12 BL13 
++ BL14 BL15 Yselb0 Yselb1 Yselb2 Yselb3 Yselb4 Yselb5 Yselb6 Yselb7 dl0 dl1 
++ vdd vss
+*.PININFO BL0:I BL1:I BL2:I BL3:I BL4:I BL5:I BL6:I BL7:I BL8:I BL9:I BL10:I 
+*.PININFO BL11:I BL12:I BL13:I BL14:I BL15:I Yselb0:I Yselb1:I Yselb2:I 
+*.PININFO Yselb3:I Yselb4:I Yselb5:I Yselb6:I Yselb7:I dl0:O dl1:O vdd:B vss:B
+XI56 net044 vdd Yselb0 vss / inverter
+XI57 net100 vdd Yselb1 vss / inverter
+XI58 net130 vdd Yselb2 vss / inverter
+XI59 net154 vdd Yselb3 vss / inverter
+XI60 net56 vdd Yselb4 vss / inverter
+XI61 net106 vdd Yselb5 vss / inverter
+XI62 net068 vdd Yselb6 vss / inverter
+XI63 net44 vdd Yselb7 vss / inverter
+XI47 BL7 net44 Yselb7 dl0 vdd vss / cell
+XI48 BL15 net44 Yselb7 dl1 vdd vss / cell
+XI49 BL10 net130 Yselb2 dl1 vdd vss / cell
+XI50 BL13 net106 Yselb5 dl1 vdd vss / cell
+XI51 BL9 net100 Yselb1 dl1 vdd vss / cell
+XI52 BL12 net56 Yselb4 dl1 vdd vss / cell
+XI53 BL11 net154 Yselb3 dl1 vdd vss / cell
+XI54 BL14 net068 Yselb6 dl1 vdd vss / cell
+XI55 BL8 net044 Yselb0 dl1 vdd vss / cell
+XI42 BL2 net130 Yselb2 dl0 vdd vss / cell
+XI45 BL5 net106 Yselb5 dl0 vdd vss / cell
+XI41 BL1 net100 Yselb1 dl0 vdd vss / cell
+XI44 BL4 net56 Yselb4 dl0 vdd vss / cell
+XI43 BL3 net154 Yselb3 dl0 vdd vss / cell
+XI46 BL6 net068 Yselb6 dl0 vdd vss / cell
+XI40 BL0 net044 Yselb0 dl0 vdd vss / cell
+.ENDS
+
+************************************************************************
+* Library Name: HW5
+* Cell Name:    SAv2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT SAv2 EN INN INP SON VDD VSS
+*.PININFO EN:I INN:I INP:I SO:O SON:O VDD:B VSS:B
+MM8 net8 INP net23 VSS n_18 W=470.0n L=180.00n m=1
+MM7 SO SON net20 VSS n_18 W=470.0n L=180.00n m=1
+MM6 net23 EN VSS VSS n_18 W=470.00n L=180.00n m=1
+MM5 net20 INN net23 VSS n_18 W=470.0n L=180.00n m=1
+MM4 SON SO net8 VSS n_18 W=470.0n L=180.00n m=1
+MM3 SON EN VDD VDD p_18 W=470.00n L=180.00n m=1
+MM2 SO SON VDD VDD p_18 W=470.0n L=180.00n m=1
+MM1 SO EN VDD VDD p_18 W=470.00n L=180.00n m=1
+MM0 SON SO VDD VDD p_18 W=470.0n L=180.00n m=1
+.ENDS
+
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    ns_delay
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT ns_delay IN OUT VDD VSS
+*.PININFO IN:I OUT:O VDD:B VSS:B
+*L=700n
+MM8 OUT net33 VSS VSS N_18 W=500.0n L=600.0n m=1
+MM7 net33 net37 VSS VSS N_18 W=500.0n L=600.0n m=1
+MM6 net37 net41 VSS VSS N_18 W=500.0n L=600.0n m=1
+MM5 net41 IN VSS VSS N_18 W=500.0n L=600.0n m=1
+MM3 OUT net33 VDD VDD P_18 W=1.85u L=600.0n m=1
+MM2 net33 net37 VDD VDD P_18 W=1.85u L=600.0n m=1
+MM1 net37 net41 VDD VDD P_18 W=1.85u L=600.0n m=1
+MM0 net41 IN VDD VDD P_18 W=1.85u L=600.0n m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    inv_chain_WL
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inv_chain_WL IN OUT VDD VSS
+*.PININFO IN:I OUT:O VDD:B VSS:B
+MMe net030 net034 VSS VSS N_18 W=500.0n L=1u m=1
+MMc net034 net038 VSS VSS N_18 W=500.0n L=1u m=1
+MMa net038 net046 VSS VSS N_18 W=500.0n L=1u m=1
+MMg OUT net030 VSS VSS N_18 W=500.0n L=1u m=1
+MM9 net046 net27 VSS VSS N_18 W=500.0n L=1u m=1
+MM8 net27 net31 VSS VSS N_18 W=500.0n L=1u m=1
+MM7 net31 net15 VSS VSS N_18 W=500.0n L=1u m=1
+MM6 net15 net39 VSS VSS N_18 W=500.0n L=1u m=1
+MM5 net39 IN VSS VSS N_18 W=500.0n L=1u m=1
+MMh OUT net030 VDD VDD P_18 W=1.85u L=1u m=1
+MMf net030 net034 VDD VDD P_18 W=1.85u L=1u m=1
+MMd net034 net038 VDD VDD P_18 W=1.85u L=1u m=1
+MMb net038 net046 VDD VDD P_18 W=1.85u L=1u m=1
+MM4 net046 net27 VDD VDD P_18 W=1.85u L=1u m=1
+MM3 net27 net31 VDD VDD P_18 W=1.85u L=1u m=1
+MM2 net31 net15 VDD VDD P_18 W=1.85u L=1u m=1
+MM1 net15 net39 VDD VDD P_18 W=1.85u L=1u m=1
+MM0 net39 IN VDD VDD P_18 W=1.85u L=1u m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    AND2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT AND2 A0 A1 OUT VDD VSS
+*.PININFO A0:I A1:I OUT:O VDD:B VSS:B
+MM4 OUT net055 VSS VSS N_18 W=500.0n L=180.00n m=1
+MM3 net055 A1 net10 VSS N_18 W=520.00n L=180.00n m=1
+MM2 net10 A0 VSS VSS N_18 W=520.00n L=180.00n m=1
+MM5 OUT net055 VDD VDD P_18 W=1.85u L=180.00n m=1
+MM1 net055 A1 VDD VDD P_18 W=470.00n L=180.00n m=1
+MM0 net055 A0 VDD VDD P_18 W=470.00n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    WL
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT WL CLK VDD VSS WL
+*.PININFO CLK:I WL:O VDD:B VSS:B
+XI2 CLK net011 VDD VSS / ns_delay
+XI1 net011 net6 VDD VSS / inv_chain_WL
+XI0 net011 net6 WL VDD VSS / AND2
+.ENDS
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    total_tcl
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT total_tcl CLK SAEN VDD VSS WL
+*.PININFO CLK:I SAEN:O WL:O VDD:B VSS:B
+MMMb net023 net10 VDD VDD P_18 W=1.85u L=1u m=1
+MMMd net013 net023 VDD VDD P_18 W=1.85u L=1u m=1
+MMMa net023 net10 VSS VSS N_18 W=500.0n L=1u m=1
+MMMc net013 net023 VSS VSS N_18 W=500.0n L=1u m=1
+XI2 CLK net10 VDD VSS / ns_delay
+XI1 net013 VDD VSS SAEN / WL
+XI0 CLK VDD VSS WL / WL
+.ENDS
+
+************************************************************************
+* Library Name: vlsi_fp
+* Cell Name:    DFF_tctl
+* View Name:    schematic
+************************************************************************
+
+
+.SUBCKT DFF_tctl A0 A1 A2 A3 A4 A5 A6 A7 A8 CLK SAEN VDD VSS WL X0 X1 X2 X3 X4 
++ X5 Y0 Y1 Y2 notused0 notused1 notused2 notused3 notused4 notused5 notused6 
++ notused7 notused8
+
+*.SUBCKT DFF_tctl CLK SAEN VDD VSS WL  
+
+
+*.PININFO A0:I A1:I A2:I A3:I A4:I A5:I A6:I A7:I A8:I CLK:I SAEN:O WL:O X0:O 
+*.PININFO X1:O X2:O X3:O X4:O X5:O Y0:O Y1:O Y2:O notused0:O notused1:O 
+*.PININFO notused2:O notused3:O notused4:O notused5:O notused6:O notused7:O 
+*.PININFO notused8:O VDD:B VSS:B
+MM1 net28 CLK VSS VSS n_18 W=500.0n L=180.00n m=1
+MM0 net28 CLK VDD VDD p_18 W=1.5u L=180.00n m=1
+XI9 CLK SAEN VDD VSS WL / total_tcl
+XI8 CLK net28 A8 Y2 notused8 VDD VSS / DFF
+XI7 CLK net28 A0 X0 notused0 VDD VSS / DFF
+XI6 CLK net28 A5 X5 notused5 VDD VSS / DFF
+XI5 CLK net28 A4 X4 notused4 VDD VSS / DFF
+XI4 CLK net28 A3 X3 notused3 VDD VSS / DFF
+XI3 CLK net28 A2 X2 notused2 VDD VSS / DFF
+XI2 CLK net28 A1 X1 notused1 VDD VSS / DFF
+XI1 CLK net28 A6 Y0 notused6 VDD VSS / DFF
+XI0 CLK net28 A7 Y1 notused7 VDD VSS / DFF
+.ENDS
+
+************************************************************************
+* Library Name: VLSI
+* Cell Name:    DFF
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT DFF CLK CLK! D Q Q! VDD VSS
+*.PININFO D:I Q:O Q!:O CLK:B CLK!:B VDD:B VSS:B
+MM23 net71 net10 net12 VDD p_18 W=500.0n L=180.00n m=1
+MM22 net12 CLK! VDD VDD p_18 W=500.0n L=180.00n m=1
+MM19 net23 CLK! VDD VDD p_18 W=500.0n L=180.00n m=1
+MM15 net75 net22 net23 VDD p_18 W=500.0n L=180.00n m=1
+MM11 net22 CLK! net71 VDD p_18 W=1u L=180.00n m=1
+MM12 net92 CLK net75 VDD p_18 W=1u L=180.00n m=1
+MM8 Q net10 VDD VDD p_18 W=1.5u L=180.00n m=1
+MM6 Q! net71 VDD VDD p_18 W=1.5u L=180.00n m=1
+MM5 net10 net71 VDD VDD p_18 W=1.5u L=180.00n m=1
+MM2 net22 net75 VDD VDD p_18 W=1.5u L=180.00n m=1
+MM1 net92 D VDD VDD p_18 W=1.5u L=180.00n m=1
+MM24 net71 net10 net56 VSS n_18 W=500.0n L=180.00n m=1
+MM21 net56 CLK VSS VSS n_18 W=500.0n L=180.00n m=1
+MM20 net60 CLK VSS VSS n_18 W=500.0n L=180.00n m=1
+MM16 net75 net22 net60 VSS n_18 W=500.0n L=180.00n m=1
+MM13 net22 CLK net71 VSS n_18 W=700.0n L=180.00n m=1
+MM10 net92 CLK! net75 VSS n_18 W=700.0n L=180.00n m=1
+MM9 Q net10 VSS VSS n_18 W=500.0n L=180.00n m=1
+MM7 Q! net71 VSS VSS n_18 W=500.0n L=180.00n m=1
+MM4 net10 net71 VSS VSS n_18 W=500.0n L=180.00n m=1
+MM3 net22 net75 VSS VSS n_18 W=500.0n L=180.00n m=1
+MM0 net92 D VSS VSS n_18 W=500.0n L=180.00n m=1
+.ENDS
+
+
+************************************************************************
+* Library Name: HW3
+* Cell Name:    SRLx2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT SRLx2 CLK Dout<0> Dout<1> Dout_SA<0> Dout_SA<1> QB<0> QB<1> VDD VSS
+*.PININFO Dout_SA<0>:I Dout_SA<1>:I Dout<0>:O Dout<1>:O QB<0>:O QB<1>:O CLK:B 
+*.PININFO VDD:B VSS:B
+MM50 Dout<1> CLK net0178 VDD p_18 W=0.95u L=180.00n m=1
+MM53 QB<1> Dout<1> VDD VDD p_18 W=1.43u L=180n m=1
+MM59 net0116 Dout_SA<1> VDD VDD p_18 W=1.43u L=180n m=1
+MM58 SA1 net0116 VDD VDD p_18 W=1.43u L=180n m=1
+MM51 net0178 QB<1> VDD VDD p_18 W=950.00n L=180n m=1
+MM17 SA0 CLKb Dout<0> VDD p_18 W=950.00n L=180.00n m=1
+MM18 SA0 net088 VDD VDD p_18 W=1.43u L=180n m=1
+MM14 QB<0> Dout<0> VDD VDD p_18 W=1.43u L=180n m=1
+MM13 net0180 QB<0> VDD VDD p_18 W=950.00n L=180n m=1
+MM40 Dout<0> CLK net0180 VDD p_18 W=0.95u L=180.00n m=1
+MM22 net088 Dout_SA<0> VDD VDD p_18 W=1.43u L=180n m=1
+MM52 SA1 CLKb Dout<1> VDD p_18 W=950.00n L=180.00n m=1
+MM16 CLKb CLK VDD VDD p_18 W=1.43u L=180n m=1
+MM57 SA1 CLK Dout<1> VSS n_18 W=950.00n L=180.00n m=1
+MM56 QB<1> Dout<1> VSS VSS n_18 W=950.00n L=180n m=1
+MM55 net0178 QB<1> VSS VSS n_18 W=470n L=180n m=1
+MM61 net0116 Dout_SA<1> VSS VSS n_18 W=950.00n L=180n m=1
+MM60 SA1 net0116 VSS VSS n_18 W=950.00n L=180n m=1
+MM24 SA0 net088 VSS VSS n_18 W=950.00n L=180n m=1
+MM25 net088 Dout_SA<0> VSS VSS n_18 W=950.00n L=180n m=1
+MM54 Dout<1> CLKb net0178 VSS n_18 W=0.95u L=180.00n m=1
+MM44 Dout<0> CLKb net0180 VSS n_18 W=0.95u L=180.00n m=1
+MM23 CLKb CLK VSS VSS n_18 W=950.00n L=180n m=1
+MM20 QB<0> Dout<0> VSS VSS n_18 W=950.00n L=180n m=1
+MM19 net0180 QB<0> VSS VSS n_18 W=470n L=180n m=1
+MM21 SA0 CLK Dout<0> VSS n_18 W=950.00n L=180.00n m=1
+.ENDS

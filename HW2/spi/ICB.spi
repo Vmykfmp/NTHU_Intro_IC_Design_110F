@@ -1,0 +1,46 @@
+.subckt ICB VDD GND Vin Vaout Vbout Vcout
+
+MN1 V12  Vin GND GND n_18 w=0.5u l=0.18u m=1
+MN2 V23  V12 GND GND n_18 w=0.5u l=0.18u m=5
+MN3 Vx   V23 GND GND n_18 w=0.5u l=0.18u m=41
+
+MNa1 na1   Vx  GND GND n_18 w=0.5u l=0.18u m=1
+MNa2 Vaout na1 GND GND n_18 w=0.5u l=0.18u m=46
+
+MNb1 nb1   Vx  GND GND n_18 w=0.5u l=0.18u m=1
+MNb2 nb2   nb1 GND GND n_18 w=0.5u l=0.18u m=7
+MNb3 nb3   nb2 GND GND n_18 w=0.5u l=0.18u m=46
+MNb4 Vbout nb3 GND GND n_18 w=0.5u l=0.18u m=313
+
+MNc1 nc1   Vx  GND GND n_18 w=0.5u l=0.18u m=1
+MNc2 nc2   nc1 GND GND n_18 w=0.5u l=0.18u m=3
+MNc3 nc3   nc2 GND GND n_18 w=0.5u l=0.18u m=7
+MNc4 nc4   nc3 GND GND n_18 w=0.5u l=0.18u m=18
+MNc5 nc5   nc4 GND GND n_18 w=0.5u l=0.18u m=46
+MNc6 nc6   nc5 GND GND n_18 w=0.5u l=0.18u m=120
+MNc7 nc7   nc6 GND GND n_18 w=0.5u l=0.18u m=313
+MNc8 Vcout nc7 GND GND n_18 w=0.5u l=0.18u m=814
+
+
+MP1 V12  Vin VDD VDD p_18 w=1.85u l=0.18u m=1
+MP2 V23  V12 VDD VDD p_18 w=1.85u l=0.18u m=5
+MP3 Vx   V23 VDD VDD p_18 w=1.85u l=0.18u m=41
+
+MPa1 na1   Vx  VDD VDD p_18 w=1.85u l=0.18u m=1
+MPa2 Vaout na1 VDD VDD p_18 w=1.85u l=0.18u m=46
+
+MPb1 nb1   Vx  VDD VDD p_18 w=1.85u l=0.18u m=1
+MPb2 nb2   nb1 VDD VDD p_18 w=1.85u l=0.18u m=7
+MPb3 nb3   nb2 VDD VDD p_18 w=1.85u l=0.18u m=46
+MPb4 Vbout nb3 VDD VDD p_18 w=1.85u l=0.18u m=313
+
+MPc1 nc1   Vx  VDD VDD p_18 w=1.85u l=0.18u m=1
+MPc2 nc2   nc1 VDD VDD p_18 w=1.85u l=0.18u m=3
+MPc3 nc3   nc2 VDD VDD p_18 w=1.85u l=0.18u m=7
+MPc4 nc4   nc3 VDD VDD p_18 w=1.85u l=0.18u m=18
+MPc5 nc5   nc4 VDD VDD p_18 w=1.85u l=0.18u m=46
+MPc6 nc6   nc5 VDD VDD p_18 w=1.85u l=0.18u m=120
+MPc7 nc7   nc6 VDD VDD p_18 w=1.85u l=0.18u m=313
+MPc8 Vcout nc7 VDD VDD p_18 w=1.85u l=0.18u m=814
+.ends
+

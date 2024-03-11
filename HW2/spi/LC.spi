@@ -1,0 +1,11 @@
+*
+.subckt LC vdd gnd va vb vc Vout 
+
+MN1 Vout Va nABn gnd n_18 w=7u l=0.18u m=1
+MN2 nABn Vb gnd  gnd n_18 w=7u l=0.18u m=1
+MN3 Vout Vc gnd  gnd n_18 w=7u l=0.18u m=1
+
+MP1 nACp Va Vdd  Vdd p_18 w=15.5u l=0.18u m=1
+MP2 nACp Vb Vdd  Vdd p_18 w=15.5u l=0.18u m=1
+MP3 Vout Vc nACp Vdd p_18 w=15.5u l=0.18u m=1
+.ends

@@ -1,0 +1,41 @@
+************************************************************************
+* auCdl Netlist:
+* 
+* Library Name:  HW5
+* Top Cell Name: SA
+* View Name:     schematic
+* Netlisted on:  Dec 25 14:21:14 2021
+************************************************************************
+
+*.BIPOLAR
+*.RESI = 2000 
+*.RESVAL
+*.CAPVAL
+*.DIOPERI
+*.DIOAREA
+*.EQUATION
+*.SCALE METER
+*.MEGA
+.PARAM
+
+
+
+************************************************************************
+* Library Name: HW5
+* Cell Name:    SA
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT SA EN INN INP SO SON VDD VSS
+*.PININFO EN:I INN:I INP:I SO:O SON:O VDD:B VSS:B
+MM8 net8 INP net23 VSS n_18 W=470.0n L=180.00n m=1
+MM7 SO SON net20 VSS n_18 W=470.0n L=180.00n m=1
+MM6 net23 EN VSS VSS n_18 W=470.00n L=180.00n m=1
+MM5 net20 INN net23 VSS n_18 W=470.0n L=180.00n m=1
+MM4 SON SO net8 VSS n_18 W=470.0n L=180.00n m=1
+MM3 SON EN VDD VDD p_18 W=470.00n L=180.00n m=1
+MM2 SO SON VDD VDD p_18 W=470.0n L=180.00n m=1
+MM1 SO EN VDD VDD p_18 W=470.00n L=180.00n m=1
+MM0 SON SO VDD VDD p_18 W=470.0n L=180.00n m=1
+.ENDS
+

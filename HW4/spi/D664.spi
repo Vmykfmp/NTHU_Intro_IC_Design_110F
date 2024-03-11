@@ -1,0 +1,151 @@
+************************************************************************
+* auCdl Netlist:
+* 
+* Library Name:  HW4
+* Top Cell Name: D664
+* View Name:     schematic
+* Netlisted on:  Dec 15 17:34:35 2021
+************************************************************************
+
+*.nBIPOLAR
+*.RESI = 2000 
+*.RESVAL
+*.CAPVAL
+*.DIOPERI
+*.DIOAREA
+*.EQUATION
+*.SCALE METER
+*.MEGA
+.PARAM
+
+
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NAND4
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NAND4 A B C EN VDD VSS out
+*.PININFO A:I B:I C:I EN:I out:O VDD:B VSS:B
+MM7 out EN VDD VDD p_18 W=0.5u L=180.00n m=1
+MM6 out A VDD VDD p_18 W=0.5u L=180.00n m=1
+MM5 out B VDD VDD p_18 W=0.5u L=180.00n m=1
+MM4 out C VDD VDD p_18 W=0.5u L=180.00n m=1
+MM3 net24 EN VSS VSS n_18 W=500.0n L=180.00n m=1
+MM2 net28 C net24 VSS n_18 W=500.0n L=180.00n m=1
+MM1 net32 B net28 VSS n_18 W=500.0n L=180.00n m=1
+MM0 out A net32 VSS n_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    inv
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT inv VDD VSS Vin Vout
+*.PININFO Vin:I Vout:O VDD:B VSS:B
+MP Vout Vin VDD VDD p_18 W=0.5u L=180.00n m=1
+MN Vout Vin VSS VSS n_18 W=500.0n L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    D38
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT D38 EN VDD VSS in0 in1 in2 out0 out1 out2 out3 out4 out5 out6 out7
+*.PININFO EN:I in0:I in1:I in2:I out0:O out1:O out2:O out3:O out4:O out5:O 
+*.PININFO out6:O out7:O VDD:B VSS:B
+XI27 net22 net18 net14 EN VDD VSS out0 / NAND4
+XI24 in0 in1 net14 EN VDD VSS out3 / NAND4
+XI23 net22 net18 in2 EN VDD VSS out4 / NAND4
+XI21 net22 in1 in2 EN VDD VSS out6 / NAND4
+XI22 in0 net18 in2 EN VDD VSS out5 / NAND4
+XI25 net22 in1 net14 EN VDD VSS out2 / NAND4
+XI26 in0 net18 net14 EN VDD VSS out1 / NAND4
+XI20 in0 in1 in2 EN VDD VSS out7 / NAND4
+XI19 VDD VSS in2 net14 / inv
+XI18 VDD VSS in1 net18 / inv
+XI17 VDD VSS in0 net22 / inv
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NOR2
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NOR2 A B VDD VSS Vout
+*.PININFO A:I B:I Vout:O VDD:B VSS:B
+MM3 net13 A VDD VDD p_18 W=0.5u L=180.00n m=1
+MM2 Vout B net13 VDD p_18 W=0.5u L=180.00n m=1
+MM1 Vout B VSS VSS n_18 W=0.5u L=180.00n m=1
+MM0 Vout A VSS VSS n_18 W=0.5u L=180.00n m=1
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    NOR2x8
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT NOR2x8 EN VDD VSS in0 in1 in2 in3 in4 in5 in6 in7 out0 out1 out2 out3 
++ out4 out5 out6 out7
+*.PININFO EN:I in0:I in1:I in2:I in3:I in4:I in5:I in6:I in7:I out0:O out1:O 
+*.PININFO out2:O out3:O out4:O out5:O out6:O out7:O VDD:B VSS:B
+XI4 EN in4 VDD VSS out4 / NOR2
+XI5 EN in5 VDD VSS out5 / NOR2
+XI6 EN in6 VDD VSS out6 / NOR2
+XI7 EN in7 VDD VSS out7 / NOR2
+XI3 EN in3 VDD VSS out3 / NOR2
+XI2 EN in2 VDD VSS out2 / NOR2
+XI1 EN in1 VDD VSS out1 / NOR2
+XI0 EN in0 VDD VSS out0 / NOR2
+.ENDS
+
+************************************************************************
+* Library Name: HW4
+* Cell Name:    D664
+* View Name:    schematic
+************************************************************************
+
+.SUBCKT D664 EN VDD VSS in0 in1 in2 in3 in4 in5 out0 out1 out2 out3 out4 
++ out5 out6 out7 out8 out9 out10 out11 out12 out13 out14 out15 out16 out17 
++ out18 out19 out20 out21 out22 out23 out24 out25 out26 out27 out28 out29 
++ out30 out31 out32 out33 out34 out35 out36 out37 out38 out39 out40 out41 
++ out42 out43 out44 out45 out46 out47 out48 out49 out50 out51 out52 out53 
++ out54 out55 out56 out57 out58 out59 out60 out61 out62 out63
+*.PININFO EN:I in0:I in1:I in2:I in3:I in4:I in5:I out0:O out1:O out2:O out3:O 
+*.PININFO out4:O out5:O out6:O out7:O out8:O out9:O out10:O out11:O out12:O 
+*.PININFO out13:O out14:O out15:O out16:O out17:O out18:O out19:O out20:O 
+*.PININFO out21:O out22:O out23:O out24:O out25:O out26:O out27:O out28:O 
+*.PININFO out29:O out30:O out31:O out32:O out33:O out34:O out35:O out36:O 
+*.PININFO out37:O out38:O out39:O out40:O out41:O out42:O out43:O out44:O 
+*.PININFO out45:O out46:O out47:O out48:O out49:O out50:O out51:O out52:O 
+*.PININFO out53:O out54:O out55:O out56:O out57:O out58:O out59:O out60:O 
+*.PININFO out61:O out62:O out63:O VDD:B VSS:B
+XI40 EN VDD VSS in0 in1 in2 net0144 net0143 net0142 net0141 net0140 net0139 
++ net0138 net0137 / D38
+XI39 EN VDD VSS in3 in4 in5 net0130 net192 net0220 net190 net0122 net188 
++ net187 net0123 / D38
+XI32 net190 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out24 out25 out26 out27 out28 out29 out30 out31 / NOR2x8
+XI33 net0122 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out32 out33 out34 out35 out36 out37 out38 out39 / NOR2x8
+XI34 net188 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out40 out41 out42 out43 out44 out45 out46 out47 / NOR2x8
+XI35 net187 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out48 out49 out50 out51 out52 out53 out54 out55 / NOR2x8
+XI36 net0123 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out56 out57 out58 out59 out60 out61 out62 out63 / NOR2x8
+XI31 net0220 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out16 out17 out18 out19 out20 out21 out22 out23 / NOR2x8
+XI30 net192 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out8 out9 out10 out11 out12 out13 out14 out15 / NOR2x8
+XI27 net0130 VDD VSS net0144 net0143 net0142 net0141 net0140 net0139 net0138 
++ net0137 out0 out1 out2 out3 out4 out5 out6 out7 / NOR2x8
+.ENDS
+

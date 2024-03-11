@@ -1,0 +1,12 @@
+*
+.subckt IC VDD GND Vin Vout
+
+MN1 V12  Vin GND GND n_18 w=0.5u l=0.18u m=1
+MN2 V23  V12 GND GND n_18 w=0.5u l=0.18u m=5
+MN3 Vout V23 GND GND n_18 w=0.5u l=0.18u m=41
+
+MP1 V12  Vin VDD VDD p_18 w=1.85u l=0.18u m=1
+MP2 V23  V12 VDD VDD p_18 w=1.85u l=0.18u m=5
+MP3 Vout V23 VDD VDD p_18 w=1.85u l=0.18u m=41
+.ends
+
